@@ -1,0 +1,54 @@
+<nav>
+  <a routerLink="/" class="logo">
+    <strong>Step</strong>
+    <span>Ordering</span>
+  </a>
+  <div class="nav-right">
+    <a routerLink="/" class="nav-link">Home</a>
+    <a routerLink="/login" class="nav-link">Login</a>
+    <button class="cart-btn" routerLink="/cart">
+      Cart 🛵
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Fast And Efficient, Online Ordering You Must Try.</h1>
+</section>
+
+<section class="categories-section">
+  <h2 class="categories-title">Categories</h2>
+  <div class="category-tabs" id="categoryTabs"></div>
+</section>
+<div class="red-line"></div>
+
+<div class="main-content">
+  <aside class="filter-panel">
+    <div class="filter-header">
+      <span>Filter</span>
+      <span>&#9660;</span>
+    </div>
+    <div class="spiciness-label">Spiciness: <span id="spiceLabel">Not Chosen</span></div>
+    <input type="range" class="spice-slider" id="spiceSlider" min="0" max="4" value="0">
+    <label class="filter-check">
+      <input type="checkbox" id="noNutsCheck"> No Nuts
+    </label>
+    <label class="filter-check">
+      <input type="checkbox" id="vegCheck"> Vegetarian Only
+    </label>
+    <button class="reset-btn" (click)="resetFilters()">RESET</button>
+  </aside>
+
+  <div class="products-area">
+    <div class="products-grid" id="productsGrid">
+      <div class="loading">
+        <div class="spinner"></div>
+        Loading...
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>&copy; 2025 <strong>Step Ordering</strong>. All rights reserved.</footer>
+<div class="toast" id="toast"></div>
