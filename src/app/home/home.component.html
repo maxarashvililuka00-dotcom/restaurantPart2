@@ -5,10 +5,9 @@
   </a>
   <div class="nav-right">
     <a routerLink="/" class="nav-link">Home</a>
-    <a routerLink="/login" class="nav-link">Login</a>
     <button class="cart-btn" routerLink="/cart">
       Cart 🛵
-      <span class="cart-badge" id="cartBadge">0</span>
+      <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>
     </button>
   </div>
 </nav>
@@ -19,7 +18,16 @@
 
 <section class="categories-section">
   <h2 class="categories-title">Categories</h2>
-  <div class="category-tabs" id="categoryTabs"></div>
+  <div class="category-tabs">
+    <button
+      *ngFor="let cat of categories"
+      class="cat-tab"
+      [class.active]="activeCategory === cat.id"
+      (click)="setCategory(cat.id)"
+    >
+      {{ cat.name }}
+    </button>
+  </div>
 </section>
 <div class="red-line"></div>
 
@@ -29,26 +37,59 @@
       <span>Filter</span>
       <span>&#9660;</span>
     </div>
-    <div class="spiciness-label">Spiciness: <span id="spiceLabel">Not Chosen</span></div>
-    <input type="range" class="spice-slider" id="spiceSlider" min="0" max="4" value="0">
+    <div class="spiciness-label">
+      Spiciness: <span>{{ spiceFilter === 0 ? 'Not Chosen' : spiceFilter }}</span>
+    </div>
+    <input
+      type="range"
+      class="spice-slider"
+      min="0"
+      max="4"
+      [value]="spiceFilter"
+      [style.background]="'linear-gradient(to right, #e63946 ' + getSpicePercent() + ', #ddd ' + getSpicePercent() + ')'"
+      (input)="onSpiceChange(+$any($event.target).value)"
+    />
     <label class="filter-check">
-      <input type="checkbox" id="noNutsCheck"> No Nuts
+      <input type="checkbox" [(ngModel)]="noNuts" (change)="applyFilters()" /> No Nuts
     </label>
     <label class="filter-check">
-      <input type="checkbox" id="vegCheck"> Vegetarian Only
+      <input type="checkbox" [(ngModel)]="vegOnly" (change)="applyFilters()" /> Vegetarian Only
     </label>
     <button class="reset-btn" (click)="resetFilters()">RESET</button>
   </aside>
 
   <div class="products-area">
-    <div class="products-grid" id="productsGrid">
-      <div class="loading">
+    <div class="products-grid">
+
+      <div *ngIf="loading" class="loading" style="grid-column: 1/-1;">
         <div class="spinner"></div>
         Loading...
       </div>
+
+      <div *ngIf="!loading && filteredProducts.length === 0" class="loading" style="grid-column: 1/-1;">
+        😕 No dishes found.
+      </div>
+
+      <div class="product-card" *ngFor="let p of filteredProducts">
+        <div class="card-img-wrap">
+          <img [src]="p.image" [alt]="p.name" (error)="$any($event.target).style.display='none'" />
+        </div>
+        <div class="card-body">
+          <div class="card-name">{{ p.name }}</div>
+          <div class="card-spiciness">Spiciness: {{ p.spiciness ?? 0 }}</div>
+          <div class="card-price">${{ (+p.price).toFixed(2) }}</div>
+          <div class="card-badges">
+            <span *ngIf="p.vegeterian" class="badge badge-veg">Vegetarian</span>
+            <span *ngIf="p.nuts" class="badge badge-nuts">Contains Nuts</span>
+          </div>
+          <button class="add-to-cart-btn" (click)="addToCart(p)">Add to Cart</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <footer>&copy; 2025 <strong>Step Ordering</strong>. All rights reserved.</footer>
-<div class="toast" id="toast"></div>
+
+<div class="toast" [class.show]="toastVisible">{{ toastMsg }}</div>

@@ -1,1 +1,71 @@
-<p>cart works!</p>
+<nav>
+  <a routerLink="/" class="logo">
+    <strong>Step</strong>
+    <span>Ordering</span>
+  </a>
+  <div class="nav-right">
+    <a routerLink="/" class="nav-link">Home</a>
+    <button class="cart-btn" routerLink="/cart">
+      Cart 🛵
+      <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>
+    </button>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  Home / <span>Cart</span>
+</div>
+
+<div class="cart-container">
+  <h1>Cart</h1>
+
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngIf="loading">
+        <td colspan="5" class="empty">იტვირთება...</td>
+      </tr>
+
+      <tr *ngIf="!loading && cartItems.length === 0">
+        <td colspan="5" class="empty">Your cart is empty 🛒</td>
+      </tr>
+
+      <tr *ngFor="let item of cartItems">
+        <td>
+          <button class="icon-btn" (click)="removeItem(item)">✖</button>
+        </td>
+        <td>
+          <div class="product-cell">
+            <img [src]="getImage(item)" class="product-img" (error)="$any($event.target).style.display='none'" />
+            <span>{{ getName(item) }}</span>
+          </div>
+        </td>
+        <td>
+          <div class="qty-box">
+            <button (click)="updateQty(item, item.quantity - 1)">−</button>
+            <span>{{ item.quantity }}</span>
+            <button (click)="updateQty(item, item.quantity + 1)">+</button>
+          </div>
+        </td>
+        <td>${{ getPrice(item).toFixed(2) }}</td>
+        <td>${{ getTotal(item).toFixed(2) }}</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="cart-summary">
+    Total : <span>${{ getGrandTotal().toFixed(2) }}</span>
+  </div>
+
+  <button class="checkout-btn" (click)="checkout()">PROCEED TO CHECKOUT</button>
+</div>
