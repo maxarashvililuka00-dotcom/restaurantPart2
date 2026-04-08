@@ -6,17 +6,7 @@ import { HttpClient } from '@angular/common/http';
 
 const API_BASE = 'https://restaurant.stepprojects.ge/api';
 
-const CATEGORIES: Record<number, string> = {
-  0: 'All',
-  1: 'Salads',
-  2: 'Soups',
-  3: 'Chicken-Dishes',
-  4: 'Beef-Dishes',
-  5: 'Seafood-Dishes',
-  6: 'Vegetable-Dishes',
-  7: 'Bits&Bites',
-  8: 'On-The-Side',
-};
+
 
 @Component({
   selector: 'app-home',
@@ -28,7 +18,7 @@ const CATEGORIES: Record<number, string> = {
 export class HomeComponent implements OnInit {
   allProducts: any[] = [];
   filteredProducts: any[] = [];
-  categories = Object.entries(CATEGORIES).map(([id, name]) => ({ id: +id, name }));
+  categories: any[] = [{ id: 0, name: 'All' }];
   activeCategory = 0;
 
   spiceActive = false;
