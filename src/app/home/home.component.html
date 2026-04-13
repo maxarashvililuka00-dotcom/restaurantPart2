@@ -5,6 +5,8 @@
   </a>
   <div class="nav-right">
     <a routerLink="/" class="nav-link">Home</a>
+    <button class="nav-link login-btn" routerLink="/login" *ngIf="!auth.isLoggedIn()">Login</button>
+    <button class="nav-link login-btn" (click)="logout()" *ngIf="auth.isLoggedIn()">Logout</button>
     <button class="cart-btn" routerLink="/cart">
       Cart 🛵
       <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>

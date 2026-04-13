@@ -1,0 +1,100 @@
+<nav>
+  <a routerLink="/" class="logo">
+    <strong>Step</strong>
+    <span>Ordering</span>
+  </a>
+  <button routerLink="/" class="back-home">← Back to Home</button>
+</nav>
+
+<div class="login-wrapper">
+  <div class="login-card">
+
+    <!-- Sign In -->
+    <div *ngIf="activePanel === 'signin'">
+      <h2>Welcome Back 🍽</h2>
+      <p class="subtitle">Login to continue your order</p>
+
+      <div class="input-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="siEmail" placeholder="you@example.com" />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="siPassword" placeholder="••••••••" />
+      </div>
+
+      <p class="error-msg">{{ siError }}</p>
+
+      <button class="login-btn" (click)="handleSignIn()" [disabled]="loading">
+        {{ loading ? 'იტვირთება...' : 'Login' }}
+      </button>
+
+      <div class="extra-links">
+        <p>Don't have an account? <a href="#" (click)="$event.preventDefault(); showPanel('signup')">Sign Up</a></p>
+      </div>
+    </div>
+
+    <!-- Sign Up -->
+    <div *ngIf="activePanel === 'signup'">
+      <h2>Create Account 🍽</h2>
+      <p class="subtitle">Sign up to start ordering</p>
+
+      <div class="input-group">
+        <label>First Name *</label>
+        <input type="text" [(ngModel)]="suFirstName" placeholder="John" />
+      </div>
+      <div class="input-group">
+        <label>Last Name *</label>
+        <input type="text" [(ngModel)]="suLastName" placeholder="Doe" />
+      </div>
+      <div class="input-group">
+        <label>Age</label>
+        <input type="number" [(ngModel)]="suAge" placeholder="18" />
+      </div>
+      <div class="input-group">
+        <label>Email *</label>
+        <input type="email" [(ngModel)]="suEmail" placeholder="you@example.com" />
+      </div>
+      <div class="input-group">
+        <label>Password *</label>
+        <input type="password" [(ngModel)]="suPassword" placeholder="min 6 characters" />
+      </div>
+      <div class="input-group">
+        <label>Confirm Password *</label>
+        <input type="password" [(ngModel)]="suConfirm" placeholder="repeat password" />
+      </div>
+      <div class="input-group">
+        <label>Address</label>
+        <input type="text" [(ngModel)]="suAddress" placeholder="123 Main St" />
+      </div>
+      <div class="input-group">
+        <label>Phone</label>
+        <input type="text" [(ngModel)]="suPhone" placeholder="+995555000000" />
+      </div>
+      <div class="input-group">
+        <label>Zipcode</label>
+        <input type="text" [(ngModel)]="suZipcode" placeholder="0100" />
+      </div>
+      <div class="input-group">
+        <label>Gender</label>
+        <select [(ngModel)]="suGender">
+          <option value="MALE">Male</option>
+          <option value="FEMALE">Female</option>
+          <option value="OTHER">Other</option>
+        </select>
+      </div>
+
+      <p class="error-msg">{{ suError }}</p>
+      <p class="success-msg">{{ suSuccess }}</p>
+
+      <button class="login-btn" (click)="handleSignUp()" [disabled]="loading">
+        {{ loading ? 'იტვირთება...' : 'Sign Up' }}
+      </button>
+
+      <div class="extra-links">
+        <p>Already have an account? <a href="#" (click)="$event.preventDefault(); showPanel('signin')">Login</a></p>
+      </div>
+    </div>
+
+  </div>
+</div>

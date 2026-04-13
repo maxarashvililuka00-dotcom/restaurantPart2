@@ -1,12 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Auth } from '../auth';
 
 const API_BASE = 'https://restaurant.stepprojects.ge/api';
-
-
 
 @Component({
   selector: 'app-home',
@@ -18,7 +17,7 @@ const API_BASE = 'https://restaurant.stepprojects.ge/api';
 export class HomeComponent implements OnInit {
   allProducts: any[] = [];
   filteredProducts: any[] = [];
-  categories: any[] = [{ id: 0, name: 'All' }];
+  categories: any[] = [];
   activeCategory = 0;
 
   spiceActive = false;
@@ -31,11 +30,26 @@ export class HomeComponent implements OnInit {
   toastVisible = false;
   loading = true;
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    public auth: Auth
+  ) {}
 
   ngOnInit() {
+    this.loadCategories();
     this.loadProducts();
     this.updateCartBadge();
+  }
+
+  loadCategories() {
+    fetch(`${API_BASE}/Categories/GetAll`)
+      .then(res => res.json())
+      .then((data: any[]) => {
+        this.categories = [{ id: 0, name: 'All' }, ...data];
+        this.cdr.detectChanges();
+      });
   }
 
   loadProducts() {
@@ -86,6 +100,11 @@ export class HomeComponent implements OnInit {
 
   getSpicePercent(): string {
     return ((this.spiceFilter / 4) * 100) + '%';
+  }
+
+  logout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
   }
 
   addToCart(product: any) {
