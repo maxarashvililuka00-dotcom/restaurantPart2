@@ -1,7 +1,7 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../auth';
 
 const AUTH_BASE = 'https://api.everrest.educata.dev/auth';
@@ -9,7 +9,7 @@ const AUTH_BASE = 'https://api.everrest.educata.dev/auth';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -36,6 +36,10 @@ export class LoginComponent {
   loading = false;
 
   constructor(private router: Router, private cdr: ChangeDetectorRef, private auth: Auth) {}
+
+  goHome() {
+    this.router.navigate(['/']);
+  }
 
   showPanel(panel: 'signin' | 'signup') {
     this.activePanel = panel;

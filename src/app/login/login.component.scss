@@ -10,6 +10,7 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
 }
 
+
 nav {
   background: #1a1a1a;
   display: flex;
@@ -42,12 +43,21 @@ nav {
     color: white;
     text-decoration: none;
     font-size: 0.9rem;
+    background: transparent;
+    border: 1.5px solid white;
+    padding: 0.4rem 1.2rem;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
 
     &:hover {
-      color: #e63946;
+      background: white;
+      color: #1a1a1a;
     }
   }
-}
+} 
+
 
 .login-wrapper {
   min-height: calc(100vh - 75px);
@@ -62,7 +72,8 @@ nav {
 .login-card {
   background: white;
   padding: 40px;
-  width: 420px;
+  width: 100%;
+  max-width: 420px; // უკეთესია Responsive-ისთვის
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.4);
 
@@ -109,24 +120,22 @@ nav {
       background: white;
     }
   }
-
-  select {
-    cursor: pointer;
-  }
 }
 
 .error-msg {
   color: #e63946;
   font-size: 0.85rem;
   min-height: 20px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .success-msg {
   color: #2a9d8f;
   font-size: 0.85rem;
   min-height: 20px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  text-align: center;
 }
 
 .login-btn {
@@ -139,8 +148,9 @@ nav {
   font-size: 1rem;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: all 0.2s;
   letter-spacing: 0.5px;
+  margin-top: 10px;
 
   &:hover:not(:disabled) {
     background: #c1121f;
@@ -159,29 +169,20 @@ nav {
   font-size: 0.88rem;
   color: #666;
 
-  p {
-    margin: 6px 0;
-  }
-
   a {
     color: #e63946;
     text-decoration: none;
     font-weight: 600;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    &:hover { text-decoration: underline; }
   }
 }
+
 
 @media (max-width: 480px) {
   nav {
     padding: 0 1rem;
   }
-
   .login-card {
-    width: 100%;
     padding: 28px 20px;
-    border-radius: 12px;
   }
 }
