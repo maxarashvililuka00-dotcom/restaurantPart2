@@ -7,13 +7,15 @@
     <a routerLink="/" class="nav-link">Home</a>
     <button class="nav-link login-btn" routerLink="/login" *ngIf="!auth.isLoggedIn()">Login</button>
     <button class="nav-link login-btn" (click)="logout()" *ngIf="auth.isLoggedIn()">Logout</button>
+    <button class="theme-btn" (click)="theme.toggle()">
+      {{ theme.isDark ? '☀️' : '🌙' }}
+    </button>
     <button class="cart-btn" routerLink="/cart">
       Cart 🛵
       <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>
     </button>
   </div>
 </nav>
-
 <section class="hero">
   <h1>Fast And Efficient, Online Ordering You Must Try.</h1>
 </section>

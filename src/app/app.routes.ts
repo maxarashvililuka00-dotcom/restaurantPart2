@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'category/:id', component: HomeComponent },
   { path: 'cart', component: CartComponent },
   { path: 'login', component: LoginComponent },
 ];

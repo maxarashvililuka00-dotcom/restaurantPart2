@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../auth';
+import { Theme } from '../theme';
 
 const AUTH_BASE = 'https://api.everrest.educata.dev/auth';
 
@@ -35,7 +36,13 @@ export class LoginComponent {
 
   loading = false;
 
-  constructor(private router: Router, private cdr: ChangeDetectorRef, private auth: Auth) {}
+ 
+constructor(
+  private router: Router, 
+  private cdr: ChangeDetectorRef, 
+  private auth: Auth,
+  public theme: Theme
+) {}
 
   goHome() {
     this.router.navigate(['/']);

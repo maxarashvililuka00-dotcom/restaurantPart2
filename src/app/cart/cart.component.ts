@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Theme } from '../theme';
 
 const API_BASE = 'https://restaurant.stepprojects.ge/api';
 
@@ -16,7 +17,7 @@ export class CartComponent implements OnInit {
   loading = true;
   cartCount = 0;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+constructor(private cdr: ChangeDetectorRef, public theme: Theme) {}
 
   ngOnInit() {
     this.renderCart();

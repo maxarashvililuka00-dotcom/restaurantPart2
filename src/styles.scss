@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+body.dark {
+  background: #121212;
+  color: #f0f0f0;
+
+  nav {
+    background: #000;
+  }
+
+  .product-card {
+    background: #1e1e1e;
+    color: #f0f0f0;
+  }
+
+  .card-name { color: #fff; }
+
+  .filter-panel {
+    background: #1e1e1e;
+    color: #f0f0f0;
+  }
+
+  .categories-section {
+    background: #1a1a1a;
+    color: #f0f0f0;
+  }
+
+  .categories-title { color: #fff; }
+
+  .cat-tab { color: #ccc; }
+
+  .cart-table {
+    background: #1e1e1e;
+    color: #f0f0f0;
+
+    th { background: #333; }
+    td { border-color: #333; }
+  }
+
+  .login-card {
+    background: #1e1e1e;
+    color: #f0f0f0;
+
+    input, select {
+      background: #2a2a2a;
+      border-color: #444;
+      color: #f0f0f0;
+    }
+  }
+
+  footer {
+    background: #000;
+  }
+}

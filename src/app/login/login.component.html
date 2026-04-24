@@ -3,7 +3,12 @@
     <strong>Step</strong>
     <span>Ordering</span>
   </a>
-  <button (click)="goHome()" class="back-home">← Back to Home</button>
+  <div style="display:flex; align-items:center; gap:1rem;">
+    <button class="theme-btn" (click)="theme.toggle()">
+      {{ theme.isDark ? '☀️' : '🌙' }}
+    </button>
+    <button (click)="goHome()" class="back-home">← Back to Home</button>
+  </div>
 </nav>
 
 <div class="login-wrapper">
