@@ -4,24 +4,27 @@
     <span>Ordering</span>
   </a>
   <div class="nav-right">
-    <a routerLink="/" class="nav-link">Home</a>
-    <button class="nav-link login-btn" routerLink="/login" *ngIf="!auth.isLoggedIn()">Login</button>
-    <button class="nav-link login-btn" (click)="logout()" *ngIf="auth.isLoggedIn()">Logout</button>
+    <a routerLink="/" class="nav-link">{{ tr.t('home') }}</a>
+   <button class="nav-link login-btn" routerLink="/login" *ngIf="!auth.isLoggedIn()">{{ tr.t('login') }}</button>
+   <button class="nav-link login-btn" (click)="logout()" *ngIf="auth.isLoggedIn()">{{ tr.t('logout') }}</button>
     <button class="theme-btn" (click)="theme.toggle()">
       {{ theme.isDark ? '☀️' : '🌙' }}
     </button>
+    <button class="lang-btn" (click)="tr.toggle()">
+  {{ tr.currentLang === 'en' ? '🇬🇪' : '🇬🇧' }}
+</button>
     <button class="cart-btn" routerLink="/cart">
-      Cart 🛵
+     {{ tr.t('cart') }} 🛵
       <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>
     </button>
   </div>
 </nav>
 <section class="hero">
-  <h1>Fast And Efficient, Online Ordering You Must Try.</h1>
+ <h1>{{ tr.t('hero_title') }}</h1>
 </section>
 
 <section class="categories-section">
-  <h2 class="categories-title">Categories</h2>
+  <h2 class="categories-title">{{ tr.t('categories') }}</h2>
   <div class="category-tabs">
     <button
       *ngFor="let cat of categories"

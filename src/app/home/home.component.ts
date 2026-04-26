@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Auth } from '../auth';
 import { Theme } from '../theme';
+import { Translate } from '../translate';
 
 const API_BASE = 'https://restaurant.stepprojects.ge/api';
 
@@ -31,29 +32,32 @@ export class HomeComponent implements OnInit {
   toastVisible = false;
   loading = true;
 
- constructor(
-  private http: HttpClient,
-  private router: Router,
-  private route: ActivatedRoute,
-  public auth: Auth,
-  public theme: Theme
-) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
+    public auth: Auth,
+    public theme: Theme,
+    public tr: Translate
+  ) {}
 
-ngOnInit() {
-  this.loadCategories();
-  this.loadProducts();
-  this.updateCartBadge();
+  ngOnInit() {
+    this.loadCategories();
+    this.loadProducts();
+    this.updateCartBadge();
 
-  this.route.params.subscribe(params => {
-    this.activeCategory = params['id'] ? +params['id'] : 0;
-    this.applyFilters();
-  });
-}
+    this.route.params.subscribe(params => {
+      this.activeCategory = params['id'] ? +params['id'] : 0;
+      this.applyFilters();
+    });
+  }
 
   loadCategories() {
     this.http.get<any[]>(`${API_BASE}/Categories/GetAll`).subscribe({
       next: (data) => {
         this.categories = [{ id: 0, name: 'All' }, ...data];
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Categories error:', err),
     });
@@ -66,18 +70,20 @@ ngOnInit() {
         this.allProducts = Array.isArray(data) ? data : [];
         this.applyFilters();
         this.loading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.loading = false;
+        this.cdr.detectChanges();
       },
     });
   }
 
-setCategory(id: number) {
-  this.activeCategory = id;
-  this.router.navigate(id === 0 ? ['/'] : ['/category', id]);
-  this.applyFilters();
-}
+  setCategory(id: number) {
+    this.activeCategory = id;
+    this.router.navigate(id === 0 ? ['/'] : ['/category', id]);
+    this.applyFilters();
+  }
 
   onSpiceChange(val: number) {
     this.spiceFilter = val;
@@ -93,6 +99,7 @@ setCategory(id: number) {
       if (this.spiceActive && p.spiciness !== this.spiceFilter) return false;
       return true;
     });
+    this.cdr.detectChanges();
   }
 
   resetFilters() {
@@ -150,6 +157,7 @@ setCategory(id: number) {
     this.http.get<any[]>(`${API_BASE}/Baskets/GetAll`).subscribe({
       next: (items) => {
         this.cartCount = items.reduce((sum, i) => sum + (i.quantity ?? 0), 0);
+        this.cdr.detectChanges();
       },
       error: () => (this.cartCount = 0),
     });
@@ -158,8 +166,10 @@ setCategory(id: number) {
   showToast(msg: string) {
     this.toastMsg = msg;
     this.toastVisible = true;
+    this.cdr.detectChanges();
     setTimeout(() => {
       this.toastVisible = false;
+      this.cdr.detectChanges();
     }, 2500);
   }
 }

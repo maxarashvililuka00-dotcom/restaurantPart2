@@ -131,11 +131,10 @@ nav {
   justify-content: center;
 }
 
-
 .hero {
   height: 280px;
   background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
-    url('/inner_banner.jpg') center/cover no-repeat;
+    url('/preview (1).webp') center/cover no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +149,35 @@ nav {
   font-family: 'Playfair Display', serif;
 }
 
+.lang-btn {
+  background: transparent;
+  border: 1.5px solid white;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: white;
 
+  &:hover {
+    background: white;
+    color: #1a1a1a;
+  }
+}
+
+.theme-btn {
+  background: transparent;
+  border: 1.5px solid white;
+  border-radius: 6px;
+  padding: 0.3rem 0.7rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: white;
+  }
+}
 .categories-section {
   background: white;
   padding: 2.5rem 3rem 0;

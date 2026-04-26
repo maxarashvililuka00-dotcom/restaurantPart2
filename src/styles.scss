@@ -1,52 +1,151 @@
 body.dark {
   background: #121212;
-  color: #f0f0f0;
+  color: #e0e0e0;
 
   nav {
     background: #000;
   }
 
-  .product-card {
-    background: #1e1e1e;
-    color: #f0f0f0;
+  .categories-section {
+    background: #1a1a1a;
   }
 
-  .card-name { color: #fff; }
+  .categories-title {
+    color: #fff;
+  }
+
+  .cat-tab {
+    color: #ccc;
+
+    &.active {
+      color: #fff;
+      border-bottom-color: #e63946;
+    }
+
+    &:hover {
+      color: #e63946;
+    }
+  }
+
+  .red-line {
+    background: linear-gradient(to right, #e63946 60%, transparent);
+  }
+
+  .main-content {
+    background: #121212;
+  }
 
   .filter-panel {
     background: #1e1e1e;
-    color: #f0f0f0;
+    color: #e0e0e0;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+
+    .filter-header {
+      color: #fff;
+    }
+
+    .spiciness-label {
+      color: #ccc;
+    }
+
+    .filter-check {
+      color: #ccc;
+    }
+
+    .spice-slider {
+      background: #444;
+    }
   }
 
-  .categories-section {
-    background: #1a1a1a;
-    color: #f0f0f0;
+  .product-card {
+    background: #1e1e1e;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+
+    &:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
   }
 
-  .categories-title { color: #fff; }
+  .card-img-wrap {
+    background: #2a2a2a;
+  }
 
-  .cat-tab { color: #ccc; }
+  .card-name {
+    color: #fff;
+  }
+
+  .card-spiciness {
+    color: #aaa;
+  }
 
   .cart-table {
     background: #1e1e1e;
-    color: #f0f0f0;
+    color: #e0e0e0;
 
-    th { background: #333; }
-    td { border-color: #333; }
+    th {
+      background: #2a2a2a;
+      color: #fff;
+    }
+
+    td {
+      border-color: #333;
+      color: #e0e0e0;
+    }
+  }
+
+  .cart-container {
+    h1 {
+      color: #fff;
+    }
+  }
+
+  .cart-summary {
+    color: #e0e0e0;
   }
 
   .login-card {
     background: #1e1e1e;
-    color: #f0f0f0;
+    color: #e0e0e0;
 
-    input, select {
-      background: #2a2a2a;
-      border-color: #444;
-      color: #f0f0f0;
+    h2 {
+      color: #fff;
     }
+
+    .subtitle {
+      color: #aaa;
+    }
+
+    .input-group {
+      label {
+        color: #ccc;
+      }
+
+      input, select {
+        background: #2a2a2a;
+        border-color: #444;
+        color: #e0e0e0;
+
+        &::placeholder {
+          color: #666;
+        }
+      }
+    }
+
+    .extra-links {
+      color: #aaa;
+    }
+  }
+
+  .breadcrumb {
+    background: #c1121f;
   }
 
   footer {
     background: #000;
+    color: #666;
+  }
+
+  .loading {
+    color: #aaa;
   }
 }
