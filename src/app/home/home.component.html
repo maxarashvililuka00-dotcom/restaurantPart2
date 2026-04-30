@@ -5,22 +5,23 @@
   </a>
   <div class="nav-right">
     <a routerLink="/" class="nav-link">{{ tr.t('home') }}</a>
-   <button class="nav-link login-btn" routerLink="/login" *ngIf="!auth.isLoggedIn()">{{ tr.t('login') }}</button>
-   <button class="nav-link login-btn" (click)="logout()" *ngIf="auth.isLoggedIn()">{{ tr.t('logout') }}</button>
+    <button class="nav-link login-btn" routerLink="/login" *ngIf="!auth.isLoggedIn()">{{ tr.t('login') }}</button>
+    <button class="nav-link login-btn" (click)="logout()" *ngIf="auth.isLoggedIn()">{{ tr.t('logout') }}</button>
     <button class="theme-btn" (click)="theme.toggle()">
       {{ theme.isDark ? '☀️' : '🌙' }}
     </button>
     <button class="lang-btn" (click)="tr.toggle()">
-  {{ tr.currentLang === 'en' ? '🇬🇪' : '🇬🇧' }}
-</button>
+      {{ tr.currentLang === 'en' ? '🇬🇪' : 'en' }}
+    </button>
     <button class="cart-btn" routerLink="/cart">
-     {{ tr.t('cart') }} 🛵
+      {{ tr.t('cart') }} 🛵
       <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>
     </button>
   </div>
 </nav>
+
 <section class="hero">
- <h1>{{ tr.t('hero_title') }}</h1>
+  <h1>{{ tr.t('hero_title') }}</h1>
 </section>
 
 <section class="categories-section">
@@ -41,11 +42,11 @@
 <div class="main-content">
   <aside class="filter-panel">
     <div class="filter-header">
-      <span>Filter</span>
+      <span>{{ tr.t('filter') }}</span>
       <span>&#9660;</span>
     </div>
     <div class="spiciness-label">
-      Spiciness: <span>{{ spiceFilter === 0 ? 'Not Chosen' : spiceFilter }}</span>
+      {{ tr.t('spiciness') }}: <span>{{ spiceFilter === 0 ? tr.t('not_chosen') : spiceFilter }}</span>
     </div>
     <input
       type="range"
@@ -57,12 +58,12 @@
       (input)="onSpiceChange(+$any($event.target).value)"
     />
     <label class="filter-check">
-      <input type="checkbox" [(ngModel)]="noNuts" (change)="applyFilters()" /> No Nuts
+      <input type="checkbox" [(ngModel)]="noNuts" (change)="applyFilters()" /> {{ tr.t('no_nuts') }}
     </label>
     <label class="filter-check">
-      <input type="checkbox" [(ngModel)]="vegOnly" (change)="applyFilters()" /> Vegetarian Only
+      <input type="checkbox" [(ngModel)]="vegOnly" (change)="applyFilters()" /> {{ tr.t('vegetarian_only') }}
     </label>
-    <button class="reset-btn" (click)="resetFilters()">RESET</button>
+    <button class="reset-btn" (click)="resetFilters()">{{ tr.t('reset') }}</button>
   </aside>
 
   <div class="products-area">
@@ -70,11 +71,11 @@
 
       <div *ngIf="loading" class="loading" style="grid-column: 1/-1;">
         <div class="spinner"></div>
-        Loading...
+        {{ tr.t('loading') }}
       </div>
 
       <div *ngIf="!loading && filteredProducts.length === 0" class="loading" style="grid-column: 1/-1;">
-        😕 No dishes found.
+        😕 {{ tr.t('no_dishes') }}
       </div>
 
       <div class="product-card" *ngFor="let p of filteredProducts">
@@ -83,13 +84,13 @@
         </div>
         <div class="card-body">
           <div class="card-name">{{ p.name }}</div>
-          <div class="card-spiciness">Spiciness: {{ p.spiciness ?? 0 }}</div>
+          <div class="card-spiciness">{{ tr.t('spiciness_label') }}: {{ p.spiciness ?? 0 }}</div>
           <div class="card-price">${{ (+p.price).toFixed(2) }}</div>
           <div class="card-badges">
-            <span *ngIf="p.vegeterian" class="badge badge-veg">Vegetarian</span>
-            <span *ngIf="p.nuts" class="badge badge-nuts">Contains Nuts</span>
+            <span *ngIf="p.vegeterian" class="badge badge-veg">{{ tr.t('vegetarian') }}</span>
+            <span *ngIf="p.nuts" class="badge badge-nuts">{{ tr.t('contains_nuts') }}</span>
           </div>
-          <button class="add-to-cart-btn" (click)="addToCart(p)">Add to Cart</button>
+          <button class="add-to-cart-btn" (click)="addToCart(p)">{{ tr.t('add_to_cart') }}</button>
         </div>
       </div>
 
@@ -97,6 +98,8 @@
   </div>
 </div>
 
-<footer>&copy; 2025 <strong>Step Ordering</strong>. All rights reserved.</footer>
-
+<footer>&copy; 2025 <strong>Step Ordering</strong>. {{ tr.t('footer') }}</footer>
+<button class="back-to-top" (click)="scrollToTop()" [class.visible]="showBackTop">
+  ↑
+</button>
 <div class="toast" [class.show]="toastVisible">{{ toastMsg }}</div>

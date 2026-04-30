@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   toastMsg = '';
   toastVisible = false;
   loading = true;
+  showBackTop = false;
 
   constructor(
     private http: HttpClient,
@@ -47,10 +48,28 @@ export class HomeComponent implements OnInit {
     this.loadProducts();
     this.updateCartBadge();
 
-    this.route.params.subscribe(params => {
-      this.activeCategory = params['id'] ? +params['id'] : 0;
-      this.applyFilters();
+    this.route.queryParams.subscribe(params => {
+      this.activeCategory = params['category'] ? +params['category'] : 0;
+      this.spiceFilter = params['spiciness'] ? +params['spiciness'] : 0;
+      this.spiceActive = this.spiceFilter > 0;
+      this.noNuts = params['noNuts'] === 'true';
+      this.vegOnly = params['vegOnly'] === 'true';
+      this.fetchFiltered();
     });
+
+    window.addEventListener('scroll', () => {
+      this.showBackTop = window.scrollY > 300;
+      this.cdr.detectChanges();
+    });
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  toggleLang() {
+    this.tr.toggle();
+    this.cdr.detectChanges();
   }
 
   loadCategories() {
@@ -68,7 +87,38 @@ export class HomeComponent implements OnInit {
     this.http.get<any[]>(`${API_BASE}/Products/GetAll`).subscribe({
       next: (data) => {
         this.allProducts = Array.isArray(data) ? data : [];
-        this.applyFilters();
+        this.filteredProducts = this.allProducts;
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+    });
+  }
+
+  fetchFiltered() {
+    this.loading = true;
+    const params: string[] = [];
+
+    if (this.activeCategory !== 0) params.push(`categoryId=${this.activeCategory}`);
+    if (this.spiceActive) params.push(`spiciness=${this.spiceFilter}`);
+    if (this.noNuts) params.push(`noNuts=true`);
+    if (this.vegOnly) params.push(`vegeterian=true`);
+
+    if (params.length === 0) {
+      this.filteredProducts = this.allProducts;
+      this.loading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    const url = `${API_BASE}/Products/GetFiltered?${params.join('&')}`;
+
+    this.http.get<any[]>(url).subscribe({
+      next: (data) => {
+        this.filteredProducts = Array.isArray(data) ? data : [];
         this.loading = false;
         this.cdr.detectChanges();
       },
@@ -81,25 +131,17 @@ export class HomeComponent implements OnInit {
 
   setCategory(id: number) {
     this.activeCategory = id;
-    this.router.navigate(id === 0 ? ['/'] : ['/category', id]);
-    this.applyFilters();
+    this.updateQueryParams();
   }
 
   onSpiceChange(val: number) {
     this.spiceFilter = val;
     this.spiceActive = val > 0;
-    this.applyFilters();
+    this.updateQueryParams();
   }
 
   applyFilters() {
-    this.filteredProducts = this.allProducts.filter((p) => {
-      if (this.activeCategory !== 0 && p.categoryId !== this.activeCategory) return false;
-      if (this.noNuts && p.nuts) return false;
-      if (this.vegOnly && !p.vegeterian) return false;
-      if (this.spiceActive && p.spiciness !== this.spiceFilter) return false;
-      return true;
-    });
-    this.cdr.detectChanges();
+    this.updateQueryParams();
   }
 
   resetFilters() {
@@ -107,7 +149,20 @@ export class HomeComponent implements OnInit {
     this.spiceActive = false;
     this.noNuts = false;
     this.vegOnly = false;
-    this.applyFilters();
+    this.router.navigate(['/']);
+  }
+
+  updateQueryParams() {
+    const params: any = {};
+    if (this.activeCategory !== 0) params['category'] = this.activeCategory;
+    if (this.spiceFilter > 0) params['spiciness'] = this.spiceFilter;
+    if (this.noNuts) params['noNuts'] = 'true';
+    if (this.vegOnly) params['vegOnly'] = 'true';
+
+    this.router.navigate(['/'], {
+      queryParams: params,
+      replaceUrl: true
+    });
   }
 
   getSpicePercent(): string {

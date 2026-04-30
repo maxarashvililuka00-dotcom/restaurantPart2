@@ -4,39 +4,44 @@
     <span>Ordering</span>
   </a>
   <div class="nav-right">
-    <a routerLink="/" class="nav-link">Home</a>
+    <a routerLink="/" class="nav-link">{{ tr.t('home') }}</a>
+    <button class="theme-btn" (click)="theme.toggle()">
+      {{ theme.isDark ? '☀️' : '🌙' }}
+    </button>
+    <button class="lang-btn" (click)="toggleLang()">
+      {{ tr.currentLang === 'en' ? '🇬🇪' : '🇬🇧' }}
+    </button>
     <button class="cart-btn" routerLink="/cart">
-      Cart 🛵
+      {{ tr.t('cart') }} 🛵
       <span class="cart-badge" [style.display]="cartCount > 0 ? 'flex' : 'none'">{{ cartCount }}</span>
     </button>
   </div>
 </nav>
 
 <div class="breadcrumb">
-  Home / <span>Cart</span>
+  {{ tr.t('home') }} / <span>{{ tr.t('cart_title') }}</span>
 </div>
 
 <div class="cart-container">
-  <h1>Cart</h1>
+  <h1>{{ tr.t('cart_title') }}</h1>
 
   <table class="cart-table">
     <thead>
       <tr>
         <th></th>
-        <th>Product</th>
-        <th>Qty</th>
-        <th>Price</th>
-        <th>Total</th>
+        <th>{{ tr.t('product') }}</th>
+        <th>{{ tr.t('qty') }}</th>
+        <th>{{ tr.t('price') }}</th>
+        <th>{{ tr.t('total') }}</th>
       </tr>
     </thead>
     <tbody>
-
       <tr *ngIf="loading">
-        <td colspan="5" class="empty">იტვირთება...</td>
+        <td colspan="5" class="empty">{{ tr.t('loading') }}</td>
       </tr>
 
       <tr *ngIf="!loading && cartItems.length === 0">
-        <td colspan="5" class="empty">Your cart is empty 🛒</td>
+        <td colspan="5" class="empty">{{ tr.t('cart_empty') }}</td>
       </tr>
 
       <tr *ngFor="let item of cartItems">
@@ -59,13 +64,12 @@
         <td>${{ getPrice(item).toFixed(2) }}</td>
         <td>${{ getTotal(item).toFixed(2) }}</td>
       </tr>
-
     </tbody>
   </table>
 
   <div class="cart-summary">
-    Total : <span>${{ getGrandTotal().toFixed(2) }}</span>
+    {{ tr.t('grand_total') }} : <span>${{ getGrandTotal().toFixed(2) }}</span>
   </div>
 
-  <button class="checkout-btn" (click)="checkout()">PROCEED TO CHECKOUT</button>
+  <button class="checkout-btn" (click)="checkout()">{{ tr.t('checkout') }}</button>
 </div>

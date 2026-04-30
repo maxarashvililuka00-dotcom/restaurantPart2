@@ -2,6 +2,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Theme } from '../theme';
+import { Translate } from '../translate';
 
 const API_BASE = 'https://restaurant.stepprojects.ge/api';
 
@@ -17,7 +18,11 @@ export class CartComponent implements OnInit {
   loading = true;
   cartCount = 0;
 
-constructor(private cdr: ChangeDetectorRef, public theme: Theme) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    public theme: Theme,
+    public tr: Translate
+  ) {}
 
   ngOnInit() {
     this.renderCart();
@@ -81,10 +86,13 @@ constructor(private cdr: ChangeDetectorRef, public theme: Theme) {}
     fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
       .then(() => this.renderCart());
   }
-
+toggleLang() {
+  this.tr.toggle();
+  this.cdr.detectChanges();
+}
   checkout() {
     if (!this.cartItems.length) {
-      alert('კალათა ცარიელია!');
+      alert(this.tr.t('cart_empty'));
       return;
     }
     const deletes = this.cartItems.map(item =>

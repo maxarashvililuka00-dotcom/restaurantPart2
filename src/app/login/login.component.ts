@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../auth';
 import { Theme } from '../theme';
+import { Translate } from '../translate';
 
 const AUTH_BASE = 'https://api.everrest.educata.dev/auth';
 
@@ -36,16 +37,21 @@ export class LoginComponent {
 
   loading = false;
 
- 
-constructor(
-  private router: Router, 
-  private cdr: ChangeDetectorRef, 
-  private auth: Auth,
-  public theme: Theme
-) {}
+  constructor(
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private auth: Auth,
+    public theme: Theme,
+    public tr: Translate
+  ) {}
 
   goHome() {
     this.router.navigate(['/']);
+  }
+
+  toggleLang() {
+    this.tr.toggle();
+    this.cdr.detectChanges();
   }
 
   showPanel(panel: 'signin' | 'signup') {

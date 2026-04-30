@@ -7,81 +7,82 @@
     <button class="theme-btn" (click)="theme.toggle()">
       {{ theme.isDark ? '☀️' : '🌙' }}
     </button>
-    <button (click)="goHome()" class="back-home">← Back to Home</button>
+    <button class="lang-btn" (click)="toggleLang()">
+      {{ tr.currentLang === 'en' ? '🇬🇪' : '🇬🇧' }}
+    </button>
+    <button (click)="goHome()" class="back-home">{{ tr.t('back_home') }}</button>
   </div>
 </nav>
 
 <div class="login-wrapper">
   <div class="login-card">
 
-    <!-- Sign In -->
     <div *ngIf="activePanel === 'signin'">
-      <h2>Welcome Back 🍽</h2>
-      <p class="subtitle">Login to continue your order</p>
+      <h2>{{ tr.t('welcome') }}</h2>
+      <p class="subtitle">{{ tr.t('login_subtitle') }}</p>
 
       <div class="input-group">
-        <label>Email</label>
+        <label>{{ tr.t('email') }}</label>
         <input type="email" [(ngModel)]="siEmail" placeholder="you@example.com" />
       </div>
       <div class="input-group">
-        <label>Password</label>
+        <label>{{ tr.t('password') }}</label>
         <input type="password" [(ngModel)]="siPassword" placeholder="••••••••" />
       </div>
 
       <p class="error-msg">{{ siError }}</p>
 
       <button class="login-btn" (click)="handleSignIn()" [disabled]="loading">
-        {{ loading ? 'იტვირთება...' : 'Login' }}
+        {{ loading ? tr.t('loading') : tr.t('login') }}
       </button>
 
       <div class="extra-links">
-        <p>Don't have an account? <a href="#" (click)="$event.preventDefault(); showPanel('signup')">Sign Up</a></p>
+        <p>{{ tr.t('no_account') }} <a href="#" (click)="$event.preventDefault(); showPanel('signup')">{{ tr.t('sign_up') }}</a></p>
       </div>
     </div>
 
-    <!-- Sign Up -->
     <div *ngIf="activePanel === 'signup'">
-      <h2>Create Account 🍽</h2>
-      <p class="subtitle">Sign up to start ordering</p>
+      <h2>{{ tr.t('create_account') }}</h2>
+      <p class="subtitle">{{ tr.t('signup_subtitle') }}</p>
 
       <div class="input-group">
-        <label>First Name *</label>
+        <label>{{ tr.t('first_name') }} *</label>
         <input type="text" [(ngModel)]="suFirstName" placeholder="John" />
       </div>
       <div class="input-group">
-        <label>Last Name *</label>
+        <label>{{ tr.t('last_name') }} *</label>
         <input type="text" [(ngModel)]="suLastName" placeholder="Doe" />
       </div>
       <div class="input-group">
-        <label>Age</label>
+        <label>{{ tr.t('age') }}</label>
         <input type="number" [(ngModel)]="suAge" placeholder="18" />
       </div>
       <div class="input-group">
-        <label>Email *</label>
+        <label>{{ tr.t('email') }} *</label>
         <input type="email" [(ngModel)]="suEmail" placeholder="you@example.com" />
       </div>
       <div class="input-group">
-        <label>Password *</label>
+        <label>{{ tr.t('password') }} *</label>
         <input type="password" [(ngModel)]="suPassword" placeholder="min 6 characters" />
       </div>
       <div class="input-group">
-        <label>Confirm Password *</label>
+        <label>{{ tr.t('confirm_password') }} *</label>
         <input type="password" [(ngModel)]="suConfirm" placeholder="repeat password" />
       </div>
       <div class="input-group">
-        <label>Address</label>
+        <label>{{ tr.t('address') }}</label>
         <input type="text" [(ngModel)]="suAddress" placeholder="123 Main St" />
       </div>
       <div class="input-group">
-        <label>Phone</label>
+        <label>{{ tr.t('phone') }}</label>
         <input type="text" [(ngModel)]="suPhone" placeholder="+995555000000" />
       </div>
       <div class="input-group">
-        <label>Zipcode</label>
+        <label>{{ tr.t('zipcode') }}</label>
         <input type="text" [(ngModel)]="suZipcode" placeholder="0100" />
       </div>
       <div class="input-group">
-        <label>Gender</label>
+        <label>{{ tr.t('gender') }}</label>
         <select [(ngModel)]="suGender">
           <option value="MALE">Male</option>
           <option value="FEMALE">Female</option>
@@ -93,11 +94,11 @@
       <p class="success-msg">{{ suSuccess }}</p>
 
       <button class="login-btn" (click)="handleSignUp()" [disabled]="loading">
-        {{ loading ? 'იტვირთება...' : 'Sign Up' }}
+        {{ loading ? tr.t('loading') : tr.t('sign_up') }}
       </button>
 
       <div class="extra-links">
-        <p>Already have an account? <a href="#" (click)="$event.preventDefault(); showPanel('signin')">Login</a></p>
+        <p>{{ tr.t('have_account') }} <a href="#" (click)="$event.preventDefault(); showPanel('signin')">{{ tr.t('login') }}</a></p>
       </div>
     </div>
 

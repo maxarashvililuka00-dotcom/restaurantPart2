@@ -149,3 +149,145 @@ body.dark {
     color: #aaa;
   }
 }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.92); }
+}
+
+router-outlet + * {
+  animation: fadeIn 0.3s ease;
+}
+
+
+.hero {
+  animation: fadeIn 0.8s ease;
+
+  h1 {
+    animation: fadeInUp 0.8s ease 0.2s both;
+  }
+}
+
+
+nav {
+  animation: fadeInDown 0.5s ease;
+}
+
+.categories-section {
+  animation: fadeInUp 0.6s ease 0.1s both;
+}
+
+.cat-tab {
+  transition: all 0.25s ease !important;
+
+  &.active {
+    animation: scaleIn 0.2s ease;
+  }
+}
+
+
+.filter-panel {
+  animation: slideInLeft 0.5s ease 0.2s both;
+}
+
+
+.product-card {
+  animation: fadeInUp 0.5s ease both;
+
+  @for $i from 1 through 20 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.05}s;
+    }
+  }
+}
+
+
+.add-to-cart-btn {
+  transition: all 0.2s ease !important;
+
+  &:active {
+    animation: bounce 0.3s ease;
+    transform: scale(0.95);
+  }
+}
+
+
+.cart-badge {
+  animation: scaleIn 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+
+.toast {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+
+.login-card {
+  animation: scaleIn 0.4s ease;
+}
+
+
+.cart-table tr {
+  animation: fadeInUp 0.4s ease both;
+
+  @for $i from 1 through 10 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{$i * 0.07}s;
+    }
+  }
+}
+
+
+.breadcrumb {
+  animation: fadeInDown 0.4s ease;
+}
