@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Theme } from '../theme';
 import { Translate } from '../translate';
+import { WebhookService } from '../services/webhook';
 
 const API_BASE = 'https://restaurant.stepprojects.ge/api';
 
@@ -21,7 +22,8 @@ export class CartComponent implements OnInit {
   constructor(
     private cdr: ChangeDetectorRef,
     public theme: Theme,
-    public tr: Translate
+    public tr: Translate,
+    private webhookService: WebhookService
   ) {}
 
   ngOnInit() {
@@ -86,21 +88,39 @@ export class CartComponent implements OnInit {
     fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
       .then(() => this.renderCart());
   }
-toggleLang() {
-  this.tr.toggle();
-  this.cdr.detectChanges();
-}
+
+  toggleLang() {
+    this.tr.toggle();
+    this.cdr.detectChanges();
+  }
+
   checkout() {
     if (!this.cartItems.length) {
       alert(this.tr.t('cart_empty'));
       return;
     }
-    const deletes = this.cartItems.map(item =>
-      fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
-    );
-    Promise.all(deletes).then(() => {
-      alert('🎉 შეკვეთა განთავსდა!');
-      this.renderCart();
+
+    const orderData = {
+      items: this.cartItems.map(item => ({
+        name: this.getName(item),
+        quantity: item.quantity,
+        price: this.getPrice(item),
+      })),
+      total: this.getGrandTotal(),
+      date: new Date().toISOString(),
+    };
+
+    this.webhookService.submitForm(orderData).subscribe({
+      next: () => {
+        const deletes = this.cartItems.map(item =>
+          fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
+        );
+        Promise.all(deletes).then(() => {
+          alert('🎉 შეკვეთა განთავსდა!');
+          this.renderCart();
+        });
+      },
+      error: (err) => console.error('Webhook შეცდომა:', err)
     });
   }
 }
