@@ -86,21 +86,30 @@ export class CartComponent implements OnInit {
     fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
       .then(() => this.renderCart());
   }
-toggleLang() {
-  this.tr.toggle();
-  this.cdr.detectChanges();
-}
+
+  toggleLang() {
+    this.tr.toggle();
+    this.cdr.detectChanges();
+  }
+
   checkout() {
     if (!this.cartItems.length) {
       alert(this.tr.t('cart_empty'));
       return;
     }
-    const deletes = this.cartItems.map(item =>
-      fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
-    );
-    Promise.all(deletes).then(() => {
-      alert('🎉 შეკვეთა განთავსდა!');
-      this.renderCart();
+
+    fetch('https://palpable-probing-underwire.ngrok-free.dev/webhook-test/add-to-cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: this.cartItems }),
+    }).then(() => {
+      const deletes = this.cartItems.map(item =>
+        fetch(`${API_BASE}/Baskets/DeleteProduct/${this.getId(item)}`, { method: 'DELETE' })
+      );
+      Promise.all(deletes).then(() => {
+        alert('🎉 შეკვეთა განთავსდა!');
+        this.renderCart();
+      });
     });
   }
 }
